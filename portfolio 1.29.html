@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyle McClenagan — Journalist</title>
+
+  <!-- Fonts: Playfair Display (editorial headline) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --ink: #1a1714;
+      --ink-mid: #4a4540;
+      --ink-light: #8a857e;
+      --paper: #f5f1eb;
+      --paper-mid: #ede8e0;
+      --accent: #b5451b;
+      /* burnt sienna — editorial red */
+      --rule: #d4cec5;
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ─── UTILITY ─────────────────────────────────────────── */
+    .rule-h {
+      border: none;
+      border-top: 1px solid var(--rule);
+    }
+
+    .rule-bold {
+      border: none;
+      border-top: 3px solid var(--ink);
+    }
+
+    .label {
+      font-family: var(--ff-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ─── HEADER / MASTHEAD ───────────────────────────────── */
+    header {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 0;
+    }
+
+    .masthead-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: .75rem;
+    }
+
+    .masthead-date {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .masthead-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .masthead-nav a {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      transition: color .2s;
+    }
+
+    .masthead-nav a:hover {
+      color: var(--accent);
+    }
+
+    .masthead-name {
+      font-family: var(--ff-head);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: .95;
+      letter-spacing: -.02em;
+      text-align: center;
+      padding: 1rem 0 .5rem;
+    }
+
+    .masthead-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .masthead-bio {
+      max-width: 560px;
+      margin: 1.25rem auto 0;
+      text-align: center;
+      font-size: 15px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+    }
+
+    /* ─── SECTION WRAPPER ─────────────────────────────────── */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: var(--ff-head);
+      font-size: 1.6rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ─── PORTFOLIO GRID ──────────────────────────────────── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--rule);
+    }
+
+    /* First article spans both columns — hero */
+    .portfolio-grid .article-card:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .article-card {
+      background: var(--paper);
+      padding: 1.75rem;
+      transition: background .2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .article-card:hover {
+      background: var(--paper-mid);
+    }
+
+    .article-outlet {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin-bottom: .75rem;
+    }
+
+    .article-title {
+      font-family: var(--ff-head);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: .5rem;
+    }
+
+    .article-card:first-child .article-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-style: normal;
+    }
+
+    .article-card:not(:first-child) .article-title {
+      font-size: 1.1rem;
+    }
+
+    .article-desc {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+      margin-bottom: .75rem;
+    }
+
+    .article-link {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      transition: gap .2s;
+    }
+
+    .article-link:hover {
+      gap: .6rem;
+    }
+    <!--
+.audio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--rule);
+}
+
+.audio-card {
+  background: var(--paper);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: background .2s;
+}
+
+.audio-card:hover { background: var(--paper-mid); }
+
+.audio-card:first-child {
+  grid-column: 1 / -1;
+}
+
+.audio-card-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.audio-card .audio-title {
+  font-family: var(--ff-head);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: .3rem;
+}
+
+.audio-card:first-child .audio-title { font-size: 1.4rem; }
+.audio-card:not(:first-child) .audio-title { font-size: 1.05rem; }
+
+.audio-card .audio-desc {
+  font-size: 13.5px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+}
+
+.audio-duration-tag {
+  font-size: 11px;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  white-space: nowrap;
+  border: 1px solid var(--rule);
+  padding: 2px 7px;
+}
+
+/* Custom audio player */
+.custom-player {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--ink);
+  padding: .6rem .9rem;
+  margin-top: auto;
+}
+
+.play-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--paper);
+  transition: color .2s;
+}
+
+.play-btn:hover { color: var(--accent); }
+
+.play-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+.progress-wrap {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,.2);
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width .1s linear;
+  pointer-events: none;
+}
+
+.time-display {
+  font-size: 11px;
+  color: rgba(245,241,235,.6);
+  white-space: nowrap;
+  letter-spacing: .04em;
+  min-width: 70px;
+  text-align: right;
+}
+
+@media (max-width: 680px) {
+  .audio-grid { grid-template-columns: 1fr; }
+  .audio-card:first-child { grid-column: 1; }
+}
+
+    /* ─── PHOTO GALLERY ───────────────────────────────────── */
+    .gallery-scroll {
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+      cursor: grab;
+    }
+
+    .gallery-scroll:active {
+      cursor: grabbing;
+    }
+
+    .gallery-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-item {
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* alternating heights for visual rhythm */
+    .gallery-item:nth-child(odd) {
+      height: 320px;
+      width: 240px;
+    }
+
+    .gallery-item:nth-child(even) {
+      height: 280px;
+      width: 210px;
+      align-self: flex-end;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+      filter: sepia(8%) saturate(0.9);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: sepia(0%) saturate(1);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: .6rem .75rem;
+      background: linear-gradient(transparent, rgba(26, 23, 20, .65));
+      color: #f5f1eb;
+      font-size: 11px;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+    }
+
+    .gallery-hint {
+      text-align: right;
+      margin-top: .6rem;
+      font-size: 11px;
+      color: var(--ink-light);
+      letter-spacing: .05em;
+    }
+
+    /* ─── RESUME ──────────────────────────────────────────── */
+    .resume-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+    }
+
+    .resume-sidebar h3 {
+      font-family: var(--ff-head);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .35rem;
+    }
+
+    .resume-sidebar p,
+    .resume-sidebar a {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.6;
+    }
+
+    .resume-sidebar a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .resume-block {
+      margin-bottom: 1.75rem;
+    }
+
+    .resume-main h3 {
+      font-family: var(--ff-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: .8rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .resume-entry {
+      margin-bottom: 1.1rem;
+    }
+
+    .resume-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: .15rem;
+    }
+
+    .resume-entry-title {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .resume-entry-date {
+      font-size: 12px;
+      color: var(--ink-light);
+      white-space: nowrap;
+    }
+
+    .resume-entry-org {
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: .2rem;
+    }
+
+    .resume-entry-desc {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    .pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--ff-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .65rem 1.25rem;
+      margin-top: 1.5rem;
+      transition: background .2s;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+    }
+
+    .pdf-btn:hover {
+      background: var(--accent);
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top: 3px solid var(--ink);
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 2rem 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-name {
+      font-family: var(--ff-head);
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio-grid .article-card:first-child {
+        grid-column: 1;
+      }
+
+      .resume-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .masthead-nav {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════════════════════════════
+     MASTHEAD
+════════════════════════════════════════════════════════ -->
+  <header>
+    <div class="masthead-top">
+      <!-- TODAY'S DATE — update or remove if you prefer -->
+      <span class="masthead-date">Portfolio</span>
+
+      <nav>
+        <ul class="masthead-nav">
+          <li><a href="#portfolio">Work</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <!-- ADD your preferred contact method below -->
+          <li><a href="mailto:kylemcclen@gmail.com">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <hr class="rule-bold" />
+
+    <!-- ╔══ EDIT: Your name below. Wrap any word in <em> for italic accent ══╗ -->
+    <h1 class="masthead-name">Kyle <em>McClenagan</em></h1>
+
+    <hr class="rule-h" style="margin-top:1rem;" />
+
+    <!-- ╔══ EDIT: One or two sentence bio ══╗ -->
+    <p class="masthead-bio">
+      Houston-based journalist covering state and local politics, higher education, and public safety through a local
+      lens in both audio and written formats.
+    </p>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════
+     PORTFOLIO
+════════════════════════════════════════════════════════ -->
+  <section class="section" id="portfolio">
+
+    <div class="section-header">
+      <h2 class="section-title">Clips</h2>
+      <hr class="rule-bold" style="width:100%;" />
+    </div>
+
+    <!--
+    HOW TO ADD AN IFRAMELY CARD:
+    1. Go to https://iframely.com, paste your article URL.
+    2. Copy the embed <div> snippet they generate.
+    3. Replace the entire <div class="article-card"> block below with that snippet.
+       OR — simply update the href on the "Read the piece →" link.
+  -->
+
+    <div class="portfolio-grid">
+
+      <!-- ARTICLE 1 — Hero (spans full width) -->
+      <div class="article-card">
+        <span class="article-outlet">
+          <!-- ╔══ EDIT: Publication name ══╗ -->
+          Houston Public Media
+        </span>
+        <h3 class="article-title">
+          <!-- ╔══ EDIT: Headline ══╗ -->
+          Democratic voters voice optimism as James Talarico goes on the offensive at Houston rally
+        </h3>
+        <p class="article-desc">
+          <!-- ╔══ EDIT: Short description / deck ══╗ -->
+          Talarico is running for U.S. Senate against Texas Attorney General Ken Paxton, who soundly defeated incumbent Sen. John Cornyn in Tuesday’s Republican primary runoff.
+        </p>
+        <!-- ╔══ EDIT: Replace # with your article URL ══╗ -->
+        <a class="article-link" href="https://www.houstonpublicmedia.org/articles/news/politics/election-2026/2026/05/28/553075/james-talarico-houston-democrat-voters-ken-paxton-senate-race/">Read the piece →</a>
+      </div>
+
+      <!-- ARTICLE 2 -->
+      <div class="article-card">
+        <span class="article-outlet">Houston Public Media</span>
+        <h3 class="article-title">Houston City Council member proposes giving police more discretion over ICE intervention</h3>
+        <p class="article-desc">The draft proposal would also require the Houston Police Department keep a record of how many times officers worked with ICE and produce an annual report.</p>
+        <a class="article-link" href="https://www.houstonpublicmedia.org/articles/news/city-of-houston/2025/11/20/536775/houston-city-council-member-considers-proposal-giving-hpd-more-discretion-over-ice-intervention/" target="_blank" rel="noopener">Read the piece →</a>
+      </div>
+
+      <!-- ARTICLE 3 -->
+      <div class="article-card">
+        <span class="article-outlet">Houston Public Media</span>
+        <h3 class="article-title">Grimes County leaders approve tax break for planned SpaceX chip facility despite resident pushback</h3>
+        <p class="article-desc">Grimes County Precinct 2 Commissioner David Tullos was the only dissenting vote. 
+"For me, personally, it hasn't felt like a negotiation. It's felt more like a capitulation."</p>
+        <a class="article-link" href="https://www.houstonpublicmedia.org/articles/news/local/2026/06/04/553705/spacex-grimes-county-tax-break-semiconductor-plant/" target="_blank" rel="noopener">Read the piece →</a>
+      </div>
+
+      <!-- ARTICLE 4 -->
+      <div class="article-card">
+        <span class="article-outlet">NPR</span>
+        <h3 class="article-title">Faculty, advocates react to Texas A&M University's new race and gender approval system
+        </h3>
+        <p class="article-desc">The new Texas A&M University System, which requires professors to obtain approval from
+          the school president to discuss certain race and gender topics, has been met with opposition from faculty and
+          freedom of speech advocates.</p>
+        <a class="article-link" href="https://www.npr.org/2025/11/15/nx-s1-5609146/faculty-advocates-react-to-texas-a-m-universitys-new-race-and-gender-approval-system" target="_blank" rel="noopener">Read the piece →</a>
+      </div>
+
+      <!-- ARTICLE 5 -->
+      <div class="article-card">
+        <span class="article-outlet">The Eagle</span>
+        <h3 class="article-title">12 Rooftop Bar & Lounge displays pattern of alleged assault</h3>
+        <p class="article-desc">Six alleged assaults, three arrests — and an owner who says he removed cameras to avoid police requests for footage</p>
+        <a class="article-link" href="https://drive.google.com/file/d/1DsetXMKzCjMi4ukqwsv8S1MZFff_EVa7/view?usp=sharing">Read the piece (PDF version to avoid paywall) →</a>
+      </div>
+
+    </div>
+  </section>
+
+<!-- ─── AUDIO SECTION HTML ─────────────────────────────── -->
+<section class="section" id="audio">
+
+  <div class="section-header">
+    <h2 class="section-title">Audio Stories</h2>
+    <hr class="rule-bold" style="width:100%;" />
+  </div>
+
+  <div class="audio-grid">
+
+    <!-- ─── CLIP 1 (hero — spans full width) ────────────── -->
+    <div class="audio-card">
+      <div>
+        <span class="article-outlet">The Texas Standard</span>
+        <div class="audio-card-meta" style="margin-top:.6rem;">
+          <h3 class="audio-title">Judge orders Texas Renaissance Festival owner to sell property</h3>
+        </div>
+        <p class="audio-desc" style="margin-top:.4rem;">
+          A Grimes County judge ordered the owners of the Texas Renaissance Festival to sell its property and assets after siding with a prospective buyer who sued when a $60 million deal fell through in 2023.
+        </p>
+      </div>
+      <div class="custom-player" data-src="250509_Kyle_Texas_Standard_2.mp3">
+        <button class="play-btn" aria-label="Play">
+          <svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6V2z"/></svg>
+        </button>
+        <div class="progress-wrap">
+          <div class="progress-bar"></div>
+        </div>
+        <span class="audio-duration-tag" style="border-color:rgba(255,255,255,.2);color:rgba(245,241,235,.5);">5:22</span>
+        <span class="time-display">0:00 / 5:22</span>
+      </div>
+    </div>
+
+    <!-- ─── CLIP 2 ──────────────────────────────────────── -->
+    <div class="audio-card">
+      <div>
+        <!-- ╔══ EDIT: Publication name ══╗ -->
+        <span class="article-outlet">NPR</span>
+        <div class="audio-card-meta" style="margin-top:.6rem;">
+          <!-- ╔══ EDIT: Story title ══╗ -->
+          <h3 class="audio-title">Houston-area residents celebrate death of Ayatollah Ali Khamenei</h3>
+        </div>
+        <!-- ╔══ EDIT: Description ══╗ -->
+        <p class="audio-desc" style="margin-top:.4rem;">Iranians in Houston celebrated the death of Supreme Leader Ayatollah Ali Khamenei, but remained skeptical about the U.S.-Israeli war against their home country. 
+</p>
+      </div>
+      <!-- ╔══ EDIT: data-src = your .mp3 filename, and update the two time displays ══╗ -->
+      <div class="custom-player" data-src="260302_NPR_Hit.wav">
+        <button class="play-btn" aria-label="Play">
+          <svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6V2z"/></svg>
+        </button>
+        <div class="progress-wrap">
+          <div class="progress-bar"></div>
+        </div>
+        <span class="audio-duration-tag" style="border-color:rgba(255,255,255,.2);color:rgba(245,241,235,.5);">0:52</span>
+        <span class="time-display">0:00 / 0:52</span>
+      </div>
+    </div>
+
+    <!-- ─── CLIP 3 ──────────────────────────────────────── -->
+    <div class="audio-card">
+      <div>
+        <!-- ╔══ EDIT: Publication name ══╗ -->
+        <span class="article-outlet">Houston Public Media</span>
+        <div class="audio-card-meta" style="margin-top:.6rem;">
+          <!-- ╔══ EDIT: Story title ══╗ -->
+          <h3 class="audio-title">Houston hospitality workers go on strike</h3>
+        </div>
+        <!-- ╔══ EDIT: Description ══╗ -->
+        <p class="audio-desc" style="margin-top:.4rem;">Workers at Hilton Americas-Houston begin a strike for better wages.</p>
+      </div>
+      <!-- ╔══ EDIT: data-src = your .mp3 filename, and update the two time displays ══╗ -->
+      <div class="custom-player" data-src="250903_strike_Spot_Complete.wav">
+        <button class="play-btn" aria-label="Play">
+          <svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6V2z"/></svg>
+        </button>
+        <div class="progress-wrap">
+          <div class="progress-bar"></div>
+        </div>
+        <span class="audio-duration-tag" style="border-color:rgba(255,255,255,.2);color:rgba(245,241,235,.5);">1:03</span>
+        <span class="time-display">0:00 / 1:03</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+<!-- ════ END AUDIO SECTION ══════════════════════════════ -->
+  
+
+
+ <section class="section" id="resume">
+
+  <div class="section-header">
+    <h2 class="section-title">Resume</h2>
+    <hr class="rule-bold" style="width:100%;" />
+  </div>
+
+  <!-- PDF embed — renders inline for desktop visitors -->
+  <!-- ╔══ EDIT: Change "resume.pdf" to your actual PDF filename ══╗ -->
+  <iframe
+    src="resume.pdf"
+    style="width:100%; height:850px; border: 1px solid var(--rule); display:block;">
+    <!-- Fallback message if browser can't render the iframe -->
+    <p style="padding:1rem; color:var(--ink-mid);">
+      Your browser can't display this PDF.
+      <a href="resume.pdf" style="color:var(--accent);">Download it here.</a>
+    </p>
+  </iframe>
+
+  <!-- Download button below the embed -->
+  <!-- ╔══ EDIT: Change "resume.pdf" to your actual PDF filename ══╗ -->
+  <a class="pdf-btn" href="resume.pdf" download style="margin-top:1rem; display:inline-flex;">
+    ↓ &nbsp; Download PDF resume
+  </a>
+
+</section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+  <footer>
+    <!-- ╔══ EDIT: Your name ══╗ -->
+    <span class="footer-name">Kyle McClenagan</span>
+
+    <ul class="footer-links">
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#resume">Resume</a></li>
+      <!-- ╔══ EDIT: Your social links ══╗ -->
+      <li><a href="https://twitter.com/KMcclenagan" target="_blank">Twitter</a></li>
+      <li><a href="https://www.linkedin.com/in/kyle-mcclenagan" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+
+  <!-- ════════════════════════════════════════════════════════
+     GALLERY DRAG-TO-SCROLL
+════════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      const el = document.getElementById('gallery');
+      let isDown = false, startX, scrollLeft;
+      el.addEventListener('mousedown', e => {
+        isDown = true;
+        startX = e.pageX - el.offsetLeft;
+        scrollLeft = el.scrollLeft;
+      });
+      el.addEventListener('mouseleave', () => isDown = false);
+      el.addEventListener('mouseup', () => isDown = false);
+      el.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - el.offsetLeft;
+        el.scrollLeft = scrollLeft - (x - startX) * 1.2;
+      });
+    })();
+  </script>
+
+<!-- ─── AUDIO PLAYER SCRIPT ───────────────────────────────
+     Paste this just before your closing </body> tag,
+     after the existing gallery drag-scroll script
+──────────────────────────────────────────────────────── -->
+<script>
+(function () {
+  // One shared Audio object — only one clip plays at a time
+  let current = null;
+
+  function formatTime(s) {
+    if (isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  document.querySelectorAll('.custom-player').forEach(function (player) {
+    const btn       = player.querySelector('.play-btn');
+    const bar       = player.querySelector('.progress-bar');
+    const wrap      = player.querySelector('.progress-wrap');
+    const timeDisp  = player.querySelector('.time-display');
+    const durTag    = player.querySelector('.audio-duration-tag');
+    const src       = player.dataset.src;
+
+    const audio = new Audio(src);
+
+    // Play / pause icons
+    const playIcon  = '<svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6V2z"/></svg>';
+    const pauseIcon = '<svg viewBox="0 0 16 16"><rect x="3" y="2" width="4" height="12"/><rect x="9" y="2" width="4" height="12"/></svg>';
+
+    btn.addEventListener('click', function () {
+      // Pause any other playing clip
+      if (current && current !== audio) {
+        current.pause();
+        current._player.querySelector('.play-btn').innerHTML = playIcon;
+      }
+      if (audio.paused) {
+        audio.play();
+        btn.innerHTML = pauseIcon;
+        current = audio;
+        current._player = player;
+      } else {
+        audio.pause();
+        btn.innerHTML = playIcon;
+      }
+    });
+
+    audio.addEventListener('timeupdate', function () {
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      bar.style.width = pct + '%';
+      timeDisp.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', function () {
+      btn.innerHTML = playIcon;
+      bar.style.width = '0%';
+      timeDisp.textContent = '0:00 / ' + formatTime(audio.duration);
+    });
+
+    // Click on progress bar to seek
+    wrap.addEventListener('click', function (e) {
+      if (!audio.duration) return;
+      const rect = wrap.getBoundingClientRect();
+      const pct  = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = pct * audio.duration;
+    });
+  });
+})();
+</script>
+</body>
+
+</html>
